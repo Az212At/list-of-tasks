@@ -2,7 +2,6 @@
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 import { useTaskStore } from "@/stores/taskStore";
-import MainLayout from "@/layouts/MainLayout.vue";
 
 const route = useRoute();
 const taskStore = useTaskStore();
@@ -12,7 +11,6 @@ const task = computed(() => taskStore.tasks.find((t) => t.id === taskId));
 </script>
 
 <template>
-  <MainLayout />
   <h1>Детали задачи</h1>
   <div v-if="task">
     <h2>{{ task.title }}</h2>

@@ -2,8 +2,16 @@
 import { useTasks } from "@/composables/useTasks";
 import TaskItem from "@/components/TaskItem.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import { computed } from "vue";
+import { useTaskStore } from "@/stores/taskStore";
 
-const { tasks, loading, error, toggleComplete, deleteTask } = useTasks();
+const { toggleComplete, deleteTask } = useTasks();
+
+const anyStore = useTaskStore();
+
+const tasks = computed(() => anyStore.tasks);
+const loading = computed(() => anyStore.loading);
+const error = computed(() => anyStore.error);
 </script>
 
 <template>

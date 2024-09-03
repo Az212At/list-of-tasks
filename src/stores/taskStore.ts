@@ -1,53 +1,61 @@
-import { ref } from "vue";
 import { defineStore } from "pinia";
 import {
   getTasks,
-  addTask as apiAddTask,
-  deleteTask as apiDeleteTask,
+  addTask as addTaskService,
+  deleteTask,
   Task,
 } from "@/services/taskService";
 
-export const useTaskStore = defineStore("taskStore", () => {
-  const tasks = ref<Task[]>([]);
-  const loading = ref<boolean>(false);
-  const error = ref<string | null>(null);
+export const useTaskStore = defineStore("taskStore", {
+  state: () => ({
+    tasks: [] as Task[],
+    loading: false as boolean,
+    error: null as string | null,
+  }),
 
-  const fetchTasks = async () => {
-    loading.value = true;
-    error.value = null;
-    try {
-      tasks.value = await getTasks();
-    } catch (err) {
-      error.value = "Failed to load tasks";
-    } finally {
-      loading.value = false;
-    }
-  };
+  actions: {
+    getTasks() {
+      return new Promise((resolve, reject) => {
+        this.loading = true;
+        getTasks()
+          .then((response) => {
+            this.tasks = response.data;
+            resolve(response);
+          })
+          .catch((error) => {
+            this.error = error.message;
+            reject(error);
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      });
+    },
 
-  const addTask = async (task: Task) => {
-    try {
-      const newTask = await apiAddTask(task);
-      tasks.value.push(newTask);
-    } catch {
-      error.value = "Failed to add task";
-    }
-  };
+    async addTask(task: Task) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const newTask = await addTaskService(task);
+        this.tasks.push(newTask);
+      } catch (error: any) {
+        this.error = error.message;
+      } finally {
+        this.loading = false;
+      }
+    },
 
-  const removeTask = async (id: number) => {
-    try {
-      await apiDeleteTask(id);
-      tasks.value = tasks.value.filter((tasks) => tasks.id !== id);
-    } catch {
-      error.value = "Failed to add task";
-    }
-  };
-
-  return {
-    tasks,
-    loading,
-    error,
-    fetchTasks,
-    addTask,
-    removeTask,
-  };
+    removeTask(id: number) {
+      return new Promise((resolve, reject) => {
+        deleteTask(id)
+          .then((response) => {
+            this.getTasks();
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+  },
 });

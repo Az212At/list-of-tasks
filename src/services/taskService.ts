@@ -13,9 +13,8 @@ export interface Task {
   completed: boolean;
 }
 
-export const getTasks = async () => {
-  const response = await apiClient.get<Task[]>("/todos?_limit=5");
-  return response.data;
+export const getTasks = () => {
+  return apiClient.get<Task[]>("/todos?_limit=5");
 };
 
 export const addTask = async (task: Task) => {

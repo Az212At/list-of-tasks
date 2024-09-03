@@ -8,6 +8,9 @@
       <RouterLink to="/task/:id" class="nav-item">Детали</RouterLink>
     </nav>
   </header>
+  <main>
+    <RouterView />
+  </main>
   <footer class="footer">2024</footer>
 </template>
 

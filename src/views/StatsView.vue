@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useTaskStore } from "@/stores/taskStore";
-import MainLayout from "@/layouts/MainLayout.vue";
 
 const taskStore = useTaskStore();
 
@@ -13,7 +12,6 @@ const incompleteTasks = computed(() => totalTasks.value - completedTasks.value);
 </script>
 
 <template>
-  <MainLayout />
   <div class="stats-content">
     <h2>Статистика</h2>
     <div class="stats">

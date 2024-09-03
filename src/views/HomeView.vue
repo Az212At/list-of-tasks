@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import MainLayout from "@/layouts/MainLayout.vue";
 import TaskList from "@/components/TaskList.vue";
 import TaskForm from "@/components/TaskForm.vue";
 </script>
 
 <template>
-  <MainLayout />
   <h1>Панель отслеживания задач</h1>
   <div class="home-content">
     <TaskForm />
