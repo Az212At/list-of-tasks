@@ -19,6 +19,7 @@ export const useTaskStore = defineStore("taskStore", {
         this.loading = true;
         getTasks()
           .then((response) => {
+            this.getTasks();
             this.tasks = response.data;
             resolve(response);
           })

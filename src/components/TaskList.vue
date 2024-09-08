@@ -12,6 +12,13 @@ const anyStore = useTaskStore();
 const tasks = computed(() => anyStore.tasks);
 const loading = computed(() => anyStore.loading);
 const error = computed(() => anyStore.error);
+
+const showNoTasks = computed(
+  () => !loading.value && !error.value && tasks.value.length === 0
+);
+const showTasksList = computed(
+  () => !loading.value && !error.value && tasks.value.length > 0
+);
 </script>
 
 <template>
@@ -19,10 +26,8 @@ const error = computed(() => anyStore.error);
     <h2>Задачи</h2>
     <LoadingSpinner v-if="loading" />
     <div v-if="error" class="error">{{ error }}</div>
-    <div v-if="!loading && !error && tasks.length === 0" class="no-tasks">
-      Нет доступных задач.
-    </div>
-    <ul v-if="!loading && !error && tasks.length > 0">
+    <div v-if="showNoTasks" class="no-tasks">Нет доступных задач.</div>
+    <ul v-if="showTasksList">
       <li v-for="task in tasks" :key="task.id" class="task-item">
         <TaskItem
           :task="task"

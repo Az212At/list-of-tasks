@@ -3,9 +3,19 @@
 <template>
   <header class="header">
     <nav class="nav">
-      <RouterLink to="/" class="nav-item">Домой</RouterLink>
-      <RouterLink to="/stats" class="nav-item">Статистика</RouterLink>
-      <RouterLink to="/task/:id" class="nav-item">Детали</RouterLink>
+      <RouterLink to="/" class="nav-item" active-class="active-nav-item">
+        Домой
+      </RouterLink>
+      <RouterLink to="/stats" class="nav-item" active-class="active-nav-item">
+        Статистика
+      </RouterLink>
+      <RouterLink
+        to="/task/:id"
+        class="nav-item"
+        active-class="active-nav-item"
+      >
+        Детали
+      </RouterLink>
     </nav>
   </header>
   <main>
@@ -26,6 +36,11 @@
 
 .nav-item:hover {
   text-decoration: underline;
+}
+
+.active-nav-item {
+  color: #ff5722;
+  border-bottom: 2px solid #ff5722;
 }
 
 .footer {

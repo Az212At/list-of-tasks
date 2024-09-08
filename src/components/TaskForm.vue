@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { computed } from "vue";
 import { useTaskStore } from "@/stores/taskStore";
 
 const newTaskTitle = ref("");
 const taskStore = useTaskStore();
 const loading = ref(false);
 const error = ref<string | null>(null);
+const buttonText = computed(() =>
+  loading.value ? "Добавление..." : "Добавить задачу"
+);
 
 const addNewTask = async () => {
   if (newTaskTitle.value.trim() !== "") {
@@ -41,7 +45,7 @@ const addNewTask = async () => {
       class="task-input"
     />
     <button type="submit" :disabled="loading" class="task-button">
-      {{ loading ? "Добавление..." : "Добавить задачу" }}
+      {{ buttonText }}
     </button>
     <p v-show="error" class="error-message">{{ error }}</p>
   </form>
